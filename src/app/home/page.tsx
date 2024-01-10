@@ -2,6 +2,7 @@
 
 import { decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
 import { RootState } from '@/redux/store';
+import Image from 'next/image';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +13,8 @@ const HomePage = () => {
 
   return (
     <div className='flex flex-col gap-3'>
-      <div className='h-[100px] bg-teal-300'>isi HomePage</div>
+      <Image src={"/android-chrome-192x192.png"} alt='gambar' width={192} height={192} />
+      <div className='h-[100px] bg-teal-300'>isi HomePage</div >
       <h1>Counter: {counter}</h1>
       <button onClick={() => dispatch(increment())}>Increment</button>
       <button onClick={() => dispatch(decrement())}>Decrement</button>

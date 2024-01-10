@@ -2,21 +2,17 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import Webmanifest from '../../public/site.webmanifest.json'
-import AppleTouch from '../../public/apple-touch-icon.png'
-import Icon32 from '../../public/favicon-32x32.png'
-import Icon16 from '../../public/favicon-16x16.png'
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "GKKD Apps",
   description: "gkkd apps",
-  manifest: "/public/site.webmanifest",
+  manifest: "/site.webmanifest",
   icons: [
-    { rel: "apple-touch-icon", sizes: "180x180", url: "/public/apple-touch-icon.png" },
-    { rel: "icon", type: "image/png", sizes: "32x32", url: "/public/favicon-32x32.png" },
-    { rel: "icon", type: "image/png", sizes: "16x16", url: "/public/favicon-16x16.png" }
+    { rel: "apple-touch-icon", sizes: "180x180", url: "/apple-touch-icon.png" },
+    { rel: "icon", type: "image/png", sizes: "32x32", url: "/favicon-32x32.png" },
+    { rel: "icon", type: "image/png", sizes: "16x16", url: "/favicon-16x16.png" },
+    { rel: "icon", type: "image/x-icon", url: "/favicon.ico" }
   ],
 };
 
