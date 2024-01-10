@@ -5,14 +5,14 @@ import { RootState } from '@/redux/store';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-const Home = () => {
+const HomePage = () => {
 
   const dispatch = useDispatch();
   const counter = useSelector((state: RootState) => state.counter.value);
 
   return (
     <div className='flex flex-col gap-3'>
-      <div className='h-[100px] bg-teal-300'>isi Home</div>
+      <div className='h-[100px] bg-teal-300'>isi HomePage</div>
       <h1>Counter: {counter}</h1>
       <button onClick={() => dispatch(increment())}>Increment</button>
       <button onClick={() => dispatch(decrement())}>Decrement</button>
@@ -22,4 +22,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default HomePage

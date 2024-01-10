@@ -1,42 +1,56 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Typography, Button, Avatar, Breadcrumbs, IconButton, Input, Menu, MenuHandler, MenuItem, MenuList, Navbar } from "@material-tailwind/react";
-import { Bars3Icon, UserCircleIcon, BellIcon, ClockIcon, CreditCardIcon, Cog6ToothIcon } from "@heroicons/react/24/solid";
+import {
+    Navbar,
+    Typography,
+    Button,
+    IconButton,
+    Breadcrumbs,
+    Input,
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+    Avatar,
+} from "@material-tailwind/react";
+import {
+    UserCircleIcon,
+    Cog6ToothIcon,
+    BellIcon,
+    ClockIcon,
+    CreditCardIcon,
+    Bars3Icon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
+import React from "react";
 
-export function NavbarComponent() {
-    // const [controller, dispatch] = useMaterialTailwindController();
-    // const { fixedNavbar, openSidenav } = controller;
-    const fixedNavbar = true
-    const openSidenav = true
+
+export function DashboardNavbar() {
+    const [fixedNavbar, setFixedNavbar] = React.useState<boolean>(false)
+    const [openSidenav, setOpenSidenav] = React.useState<string>('dark')
     const pathname = usePathname()
-    const [layout, page] = pathname.split("/").filter((el) => el !== "");
 
     return (
-        <nav
-            className="bg-white opacity-100"
-        // className={`rounded-xl transition-all ${fixedNavbar
-        //     ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
-        //     : "px-0 py-1"
-        //     }`}
-        // fullWidth
-        // blurred={fixedNavbar}
+        <Navbar
+            color={fixedNavbar ? "white" : "transparent"}
+            className={`rounded-xl transition-all ${fixedNavbar
+                ? "sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
+                : "px-0 py-1"
+                }`}
+            fullWidth
+            blurred={fixedNavbar}
         >
             <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
                 <div className="capitalize">
-                    <Breadcrumbs
-                        className={`bg-transparent p-0 transition-all ${fixedNavbar ? "mt-1" : ""
-                            }`}
-                    >
-                        <Link href={`/${layout}`}> tulisan
+                    <Breadcrumbs className={`bg-transparent p-0 transition-all ${fixedNavbar ? "mt-1" : ""}`} >
+                        <Link href={pathname}>
                             <Typography
                                 variant="small"
                                 color="blue-gray"
                                 className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100"
                             >
-                                {layout || ""}
+                                {pathname.split("/")[1] || ""}
                             </Typography>
                         </Link>
                         <Typography
@@ -44,22 +58,22 @@ export function NavbarComponent() {
                             color="blue-gray"
                             className="font-normal"
                         >
-                            {page || "dashboard"}
+                            {pathname.split("/")[2] || ""}
                         </Typography>
-                    </Breadcrumbs>
+                    </Breadcrumbs >
                     <Typography variant="h6" color="blue-gray">
-                        {page || "dashboard"}
+                        {pathname.split("/")[pathname.split("/").length - 1] || ""}
                     </Typography>
-                </div>
-                <div className="flex items-center">
-                    <div className="mr-auto md:mr-4 md:w-56">
-                        <Input label="Search" crossOrigin={undefined} />
-                    </div>
-                    <IconButton
+                </div >
+                < div className="flex items-center" >
+                    {/* <div className="mr-auto md:mr-4 md:w-56">
+                        <Input label="Search" />
+                    </div> */}
+                    < IconButton
                         variant="text"
                         color="blue-gray"
                         className="grid xl:hidden"
-                        onClick={() => { console.log("clicked!") }}
+                    // onClick={() => setOpenSidenav(dispatch, !openSidenav)}
                     >
                         <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
                     </IconButton>
@@ -161,14 +175,14 @@ export function NavbarComponent() {
                     <IconButton
                         variant="text"
                         color="blue-gray"
-                        onClick={() => console.log('click ked!')}
+                    // onClick={() => setOpenConfigurator(dispatch, true)}
                     >
                         <Cog6ToothIcon className="h-5 w-5 text-blue-gray-500" />
                     </IconButton>
-                </div>
-            </div>
-        </nav>
+                </div >
+            </div >
+        </Navbar >
     );
 }
 
-export default NavbarComponent;
+export default DashboardNavbar;

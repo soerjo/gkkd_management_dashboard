@@ -1,24 +1,21 @@
 import PropTypes from "prop-types";
-import { HeartIcon } from '@heroicons/react/24/solid'
-import { Typography } from '@material-tailwind/react'
-import React from 'react'
+import { Typography } from "@material-tailwind/react";
+import { HeartIcon } from "@heroicons/react/24/solid";
 
-type IRoute = {
-    name: string,
-    path: string,
-}
-
-const FooterComponent = () => {
-    const year = new Date().getFullYear();
-
-    const brandName = "Creative Tim";
-    const brandLink = "https://www.creative-tim.com";
-    const routes = [
+const data = {
+    brandName: "Creative Tim",
+    brandLink: "https://www.creative-tim.com",
+    routes: [
         { name: "Creative Tim", path: "https://www.creative-tim.com" },
         { name: "About Us", path: "https://www.creative-tim.com/presentation" },
         { name: "Blog", path: "https://www.creative-tim.com/blog" },
         { name: "License", path: "https://www.creative-tim.com/license" },
-    ]
+    ],
+}
+
+export function Footer() {
+    const { brandName, brandLink, routes } = data;
+    const year = new Date().getFullYear();
 
     return (
         <footer className="py-2">
@@ -52,7 +49,7 @@ const FooterComponent = () => {
                 </ul>
             </div>
         </footer>
-    )
+    );
 }
 
-export default FooterComponent
+export default Footer;

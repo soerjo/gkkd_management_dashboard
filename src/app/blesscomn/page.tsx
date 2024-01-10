@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { abortFetchItems, allItems, fetchItemsAsync, setCurrentPage } from '@/redux/reducer/pagination.reducer';
 import store from '@/redux/store';
 
-export default function Home() {
+export default function BlesscomnPage() {
   const dispatch = useDispatch<typeof store.dispatch>();
   const { items, currentPage, status, error } = useSelector(allItems)
 

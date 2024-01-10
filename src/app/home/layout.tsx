@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "wilayah",
-  description: "page wilayah",
+  title: "home",
+  description: "page home",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
