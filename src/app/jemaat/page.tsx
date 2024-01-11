@@ -1,5 +1,6 @@
 'use client';
 
+import { resetAlert } from '@/redux/reducer/alert.reducer';
 import { decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
 import { RootState } from '@/redux/store';
 import React from 'react'
@@ -10,6 +11,9 @@ const JemaatPage = () => {
   const dispatch = useDispatch();
   const counter = useSelector((state: RootState) => state.counter.value);
 
+  React.useEffect(() => {
+    () => { dispatch(resetAlert()) }
+  }, [])
   return (
     <div className='flex flex-col gap-3'>
       <div className='h-[100px] bg-teal-300'>isi JemaatPage</div>

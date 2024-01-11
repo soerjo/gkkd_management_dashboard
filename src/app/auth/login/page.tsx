@@ -8,6 +8,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
+import store from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthLoginAsync, authDataReducer } from "@/redux/reducer/auth.reducer";
+import { alertOpenAsync, resetAlert } from "@/redux/reducer/alert.reducer";
+
 
 type Inputs = {
   usernameOrEmail: string
@@ -23,22 +28,35 @@ const schema = yup
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(value) || typeof value === 'string';
       }),
-    password: yup.string().length(8).required('password is required'),
+    password: yup.string().required('password is required'),
   })
   .required()
 
 
 export default function LoginPage() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({
+  const dispatch = useDispatch<typeof store.dispatch>();
+  const { status } = useSelector(authDataReducer)
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
     resolver: yupResolver(schema),
   })
 
   const router = useRouter()
 
-  const onSubmit = (data: Inputs) => {
-    console.log({ data })
-    router.push('/')
+  const onSubmit = async (data: Inputs) => {
+    const response = await dispatch(AuthLoginAsync({
+      usernameOrEmail: data.usernameOrEmail,
+      password: data.password
+    })) as any
+
+    if (response.error)
+      return dispatch(alertOpenAsync({ options: "error", message: response.error.message }))
+
+    return router.push("/", { scroll: true })
   }
+
+  React.useEffect(() => {
+    () => { dispatch(resetAlert()) }
+  }, [dispatch])
 
   return (
     <section className="m-8 flex gap-4">
@@ -82,7 +100,8 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="h-[30px]" />
-          <Button className="mt-6" type="submit" fullWidth>
+
+          <Button className="mt-0" type="submit" disabled={status === "loading"} fullWidth>
             Sign In
           </Button>
         </form>

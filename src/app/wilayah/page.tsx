@@ -1,5 +1,6 @@
 'use client';
 
+import { resetAlert } from '@/redux/reducer/alert.reducer';
 import { decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
 import { RootState } from '@/redux/store';
 import React from 'react'
@@ -9,6 +10,10 @@ const WilayahPage = () => {
 
   const dispatch = useDispatch();
   const counter = useSelector((state: RootState) => state.counter.value);
+
+  React.useEffect(() => {
+    () => { dispatch(resetAlert()) }
+  }, [])
 
   return (
     <div className='flex flex-col gap-3'>
