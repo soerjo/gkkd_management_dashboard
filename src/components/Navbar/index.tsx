@@ -77,7 +77,7 @@ export function DashboardNavbar() {
                     >
                         <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
                     </IconButton>
-                    <Link href="/auth/sign-in">
+                    <Link href="/profile">
                         <Button
                             variant="text"
                             color="blue-gray"

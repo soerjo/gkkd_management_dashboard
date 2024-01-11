@@ -1,4 +1,4 @@
-import { HomeIcon, AcademicCapIcon, GlobeAsiaAustraliaIcon, UserGroupIcon, UsersIcon, UserCircleIcon, ServerStackIcon, RectangleStackIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, AcademicCapIcon, GlobeAsiaAustraliaIcon, UserGroupIcon, UsersIcon, UserCircleIcon, ServerStackIcon, RectangleStackIcon, TableCellsIcon } from "@heroicons/react/24/solid";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -46,9 +46,14 @@ export const routes: IRoutes[] = [
         path: "/wilayah",
       },
       {
-        icon: <UserCircleIcon {...icon} />,
+        icon: <TableCellsIcon {...icon} />,
         name: "user",
         path: "/user",
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "profile",
+        path: "/profile",
       },
     ],
   },
@@ -58,14 +63,14 @@ export const routes: IRoutes[] = [
     pages: [
       {
         icon: <ServerStackIcon {...icon} />,
-        name: "sign in",
-        path: "/sign-in",
+        name: "login",
+        path: "/auth/login",
       },
-      {
-        icon: <RectangleStackIcon {...icon} />,
-        name: "sign up",
-        path: "/sign-up",
-      },
+      // {
+      //   icon: <RectangleStackIcon {...icon} />,
+      //   name: "sign up",
+      //   path: "/sign-up",
+      // },
     ],
   },
 ];
