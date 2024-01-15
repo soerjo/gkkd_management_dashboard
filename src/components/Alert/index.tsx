@@ -1,25 +1,29 @@
 "use client";
 
 import { Alert } from "@material-tailwind/react";
-import React, { useEffect } from "react";
+import React from "react";
 
 import { CheckCircleIcon, ExclamationCircleIcon, FireIcon } from "@heroicons/react/24/solid";
-import { useDispatch, useSelector } from "react-redux";
-import store from "@/redux/store";
-import { alertReducer, closeAlert } from "@/redux/reducer/alert.reducer";
+import { positions, transitions } from "react-alert";
+
+export const alertOptions = {
+  position: positions.TOP_RIGHT,
+  timeout: 10000,
+  offset: '300px',
+  transition: transitions.SCALE
+}
+
 
 const iconClass = {
   className: "w-6 h-6 text-inherit",
 };
 
-export const CustomAlert = () => {
-  const dispatch = useDispatch<typeof store.dispatch>();
-  const { isOpen, message, options } = useSelector(alertReducer);
+const AlertTemplate = (props: any) => {
 
   let classColor = "";
   let Icon: React.ReactNode;
 
-  switch (options) {
+  switch (props.options.type) {
     case "success":
       Icon = <CheckCircleIcon {...iconClass} />;
       classColor = " border-[#2ec946] bg-[#2ec946]/10 text-[#2ec946]";
@@ -42,14 +46,12 @@ export const CustomAlert = () => {
   }
 
   return (
-    <Alert
-      className={"absolute right-0 rounded-none border-l-4 max-w-[450px] font-medium " + classColor}
-      open={isOpen}
-      onClose={() => dispatch(closeAlert())}
-    >
+    <Alert className={"mt-4 rounded-none border-l-4 max-w-[450px] font-medium " + classColor}>
       <div className="flex flex-row justify-center items-center gap-4 text-sm">
-        {Icon} {message || "A simple alert for showing message."}
+        {Icon} {props.message || "A simple alert for showing message."}
       </div>
     </Alert>
-  );
-};
+  )
+}
+
+export default AlertTemplate;

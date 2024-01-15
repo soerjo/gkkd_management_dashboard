@@ -6,59 +6,50 @@ import { Input, Button, Typography } from "@material-tailwind/react";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 
-import store from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { AuthLoginAsync, authDataReducer } from "@/redux/reducer/auth.reducer";
-import { alertOpenAsync, resetAlert } from "@/redux/reducer/alert.reducer";
+import loginFormSchema from "@/common/validator/login-form.validator";
+import { ILoginForm } from "@/common/interfaces/login-form.interfaces";
+
+import { authLogin } from "@/services/auth";
+import { useAlert } from "react-alert";
+import { handleSetCookie } from "@/utils/cookies.util";
 
 
-type Inputs = {
-  usernameOrEmail: string
-  password: string
-}
-
-const schema = yup
-  .object({
-    usernameOrEmail: yup.string().required('Username or Email is required').test(
-      'is-email-or-string',
-      'Enter a valid email or string',
-      (value) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value) || typeof value === 'string';
-      }),
-    password: yup.string().required('password is required'),
-  })
-  .required()
 
 
 export default function LoginPage() {
-  const dispatch = useDispatch<typeof store.dispatch>();
-  const { status } = useSelector(authDataReducer)
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-    resolver: yupResolver(schema),
+  const [status, setstatus] = React.useState<string>("idle")
+  const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>({
+    resolver: yupResolver(loginFormSchema),
   })
 
+  const alert = useAlert()
   const router = useRouter()
 
-  const onSubmit = async (data: Inputs) => {
-    const response = await dispatch(AuthLoginAsync({
-      usernameOrEmail: data.usernameOrEmail,
-      password: data.password
-    })) as any
+  const onSubmit = async (data: ILoginForm) => {
+    try {
+      setstatus('loading')
+      const response = await authLogin(data.usernameOrEmail, data.password)
 
-    if (response.error)
-      return dispatch(alertOpenAsync({ options: "error", message: response.error.message }))
+      handleSetCookie("jwt", response.data.jwt, 8)
+      localStorage.setItem('jwt', response.data.jwt);
+      localStorage.setItem('currentUser', JSON.stringify(response.data.payload));
 
-    return router.push("/", { scroll: true })
+      setstatus('success')
+      router.push("/", { scroll: true })
+    } catch (error: any) {
+      setstatus('err')
+
+      if (error?.response?.status < 500) {
+        return alert.show(error.response.data.message, { type: "error" })
+      }
+
+      alert.show(error.message, { type: "error" })
+    }
   }
 
-  React.useEffect(() => {
-    () => { dispatch(resetAlert()) }
-  }, [dispatch])
-
   return (
+
     <section className="m-8 flex gap-4">
       <div className="w-full lg:w-3/5 mx-auto mt-24">
         <div className="text-center">

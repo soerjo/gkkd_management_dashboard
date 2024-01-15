@@ -4,21 +4,38 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const app_url = process.env.APP_URL || "";
   const path = request.url.replace(app_url, "");
-  const currentUser = request.cookies.get("currentUser")?.value;
 
-  if (path == "/") return NextResponse.redirect(new URL("/home", request.url));
+  const jwt = request.cookies.get("jwt")?.value;
 
-  // if (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt) {
-  //   request.cookies.delete("currentUser");
-  //   const response = NextResponse.redirect(new URL("/auth/login", request.url));
-  //   response.cookies.delete("currentUser");
+  if (jwt && path.includes("/auth")) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
 
-  //   return response;
-  // }
+  if (!jwt && !path.includes("/auth")) {
+    const response = NextResponse.redirect(new URL("/auth/login", request.url));
+
+    request.cookies.delete("jwt");
+    response.cookies.delete("jwt");
+
+    return response;
+  }
+
+  if (path === "/") {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
 
   return;
 }
 
 export const config = {
-  matcher: ["/", "/home/:path*", "/jemaat/:path*", "/pemuridan/:path*", "/user/:path*", "/wilayah/:path*"],
+  matcher: [
+    "/",
+    "/auth/:path*",
+    "/home/:path*",
+    "/blesscomn/:path*",
+    "/jemaat/:path*",
+    "/pemuridan/:path*",
+    "/user/:path*",
+    "/wilayah/:path*",
+  ],
 };

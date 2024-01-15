@@ -9,12 +9,14 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import Sidenav from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import DashboardNavbar from "@/components/Navbar";
-import { CustomAlert } from "@/components/Alert";
+import AlertTemplate, { alertOptions } from "@/components/Alert";
 import { routes } from "@/constant/routes.constant";
 import { drawerTheme } from "@/theme/drawer.theme"
 
 import { Provider as ReduxProvider } from "react-redux";
 import store from "@/redux/store";
+
+import { Provider as AlertProvider } from 'react-alert'
 
 export default function Template({ children }: { children: React.ReactNode }) {
     const [sidenavType, setSidenavType] = React.useState<string>('dark')
@@ -25,11 +27,11 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <>
             <ReduxProvider store={store}>
                 <ThemeProvider>
-                    <div className="relative">
-                        <CustomAlert />
-                        {children}
-                    </div>
-
+                    <AlertProvider template={AlertTemplate} {...alertOptions}>
+                        <div className="relative">
+                            {children}
+                        </div>
+                    </AlertProvider>
                 </ThemeProvider>
             </ReduxProvider>
         </>
@@ -68,7 +70,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
                                     )}
                                 </Routes> */}
                             <div className="relative">
-                                <CustomAlert />
                                 {children}
                             </div>
                             <div className="text-blue-gray-600">
