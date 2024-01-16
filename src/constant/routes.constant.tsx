@@ -5,9 +5,10 @@ const icon = {
 };
 
 export interface IPage {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   name: string;
   path: string;
+  child?: IPage[];
 }
 
 export interface IRoutes {
@@ -27,24 +28,46 @@ export const routes: IRoutes[] = [
       },
       {
         icon: <UserGroupIcon {...icon} />,
-        name: "blesscomn",
-        path: "/blesscomn",
+        name: "data",
+        path: "/data",
+        child: [
+          {
+            name: "blesscomn",
+            path: "/blesscomn",
+          },
+          {
+            name: "jemaat",
+            path: "/jemaat",
+          },
+          {
+            name: "pemuridan",
+            path: "/pemuridan",
+          },
+          {
+            name: "wilayah",
+            path: "/wilayah",
+          }
+        ]
       },
-      {
-        icon: <UsersIcon {...icon} />,
-        name: "jemaat",
-        path: "/jemaat",
-      },
-      {
-        icon: <AcademicCapIcon {...icon} />,
-        name: "pemuridan",
-        path: "/pemuridan",
-      },
-      {
-        icon: <GlobeAsiaAustraliaIcon {...icon} />,
-        name: "wilayah",
-        path: "/wilayah",
-      },
+      // {
+      //   name: "blesscomn",
+      //   path: "/blesscomn",
+      // },
+      // {
+      //   icon: <UsersIcon {...icon} />,
+      //   name: "jemaat",
+      //   path: "/jemaat",
+      // },
+      // {
+      //   icon: <AcademicCapIcon {...icon} />,
+      //   name: "pemuridan",
+      //   path: "/pemuridan",
+      // },
+      // {
+      //   icon: <GlobeAsiaAustraliaIcon {...icon} />,
+      //   name: "wilayah",
+      //   path: "/wilayah",
+      // },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "user",
@@ -57,20 +80,20 @@ export const routes: IRoutes[] = [
       },
     ],
   },
-  {
-    title: "auth pages",
-    layout: "auth",
-    pages: [
-      {
-        icon: <ServerStackIcon {...icon} />,
-        name: "login",
-        path: "/auth/login",
-      },
-      // {
-      //   icon: <RectangleStackIcon {...icon} />,
-      //   name: "sign up",
-      //   path: "/sign-up",
-      // },
-    ],
-  },
+  // {
+  //   title: "auth pages",
+  //   layout: "auth",
+  //   pages: [
+  //     {
+  //       icon: <ServerStackIcon {...icon} />,
+  //       name: "login",
+  //       path: "/auth/login",
+  //     },
+  //     // {
+  //     //   icon: <RectangleStackIcon {...icon} />,
+  //     //   name: "sign up",
+  //     //   path: "/sign-up",
+  //     // },
+  //   ],
+  // },
 ];

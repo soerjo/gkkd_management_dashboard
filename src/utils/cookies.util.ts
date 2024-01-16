@@ -5,3 +5,7 @@ export const handleSetCookie = (key: string, payload: string, expire: number) =>
   const expires = "expires=" + expirationDate.toUTCString();
   document.cookie = `${key}=${payload}; ` + expires + "; path=/";
 };
+
+export const handleCleanCookie = (key: string) => {
+  document.cookie = `${key}=;  path=/`;
+};

@@ -1,7 +1,6 @@
 'use client';
 
-import { resetAlert } from '@/redux/reducer/alert.reducer';
-import { decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
+import { closeSidebar, decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
 import { RootState } from '@/redux/store';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +11,7 @@ const UserPage = () => {
     const counter = useSelector((state: RootState) => state.counter.value);
 
     React.useEffect(() => {
-        () => { dispatch(resetAlert()) }
+        dispatch(closeSidebar())
     }, [])
 
     return (

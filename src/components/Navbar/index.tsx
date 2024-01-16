@@ -22,14 +22,26 @@ import {
     Bars3Icon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSidebar } from "@/redux/reducer/main.reducer";
+import { handleCleanCookie } from "@/utils/cookies.util";
 
 
 export function DashboardNavbar() {
     const [fixedNavbar, setFixedNavbar] = React.useState<boolean>(false)
-    const [openSidenav, setOpenSidenav] = React.useState<string>('dark')
-    const pathname = usePathname()
+    const dispatch = useDispatch();
+    const router = useRouter()
+
+    const pathname = usePathname();
+
+    const handleLogout = () => {
+        localStorage.clear()
+        handleCleanCookie('jwt')
+        router.push("/auth/login")
+    }
+
 
     return (
         <Navbar
@@ -66,34 +78,30 @@ export function DashboardNavbar() {
                     </Typography>
                 </div >
                 < div className="flex items-center" >
-                    {/* <div className="mr-auto md:mr-4 md:w-56">
-                        <Input label="Search" />
-                    </div> */}
                     < IconButton
                         variant="text"
                         color="blue-gray"
                         className="grid xl:hidden"
-                    // onClick={() => setOpenSidenav(dispatch, !openSidenav)}
+                        onClick={() => dispatch(toggleSidebar())}
                     >
                         <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
                     </IconButton>
-                    <Link href="/profile">
-                        <Button
-                            variant="text"
-                            color="blue-gray"
-                            className="hidden items-center gap-1 px-4 xl:flex normal-case"
-                        >
-                            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-                            Sign In
-                        </Button>
-                        <IconButton
-                            variant="text"
-                            color="blue-gray"
-                            className="grid xl:hidden"
-                        >
-                            <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-                        </IconButton>
-                    </Link>
+                    <Button
+                        variant="text"
+                        color="blue-gray"
+                        className="hidden items-center gap-1 px-4 xl:flex normal-case"
+                    >
+                        <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                        Log out
+                    </Button>
+                    <IconButton
+                        variant="text"
+                        color="blue-gray"
+                        className="grid xl:hidden"
+                        onClick={() => handleLogout()}
+                    >
+                        <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                    </IconButton>
                     <Menu>
                         <MenuHandler>
                             <IconButton variant="text" color="blue-gray">

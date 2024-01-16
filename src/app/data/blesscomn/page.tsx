@@ -4,7 +4,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { abortFetchItems, allItems, fetchItemsAsync, setCurrentPage } from '@/redux/reducer/pagination.reducer';
 import store from '@/redux/store';
-import { resetAlert } from '@/redux/reducer/alert.reducer';
+import { closeSidebar } from '@/redux/reducer/main.reducer';
 
 export default function BlesscomnPage() {
   const dispatch = useDispatch<typeof store.dispatch>();
@@ -21,7 +21,7 @@ export default function BlesscomnPage() {
   }, [dispatch])
 
   React.useEffect(() => {
-    () => { dispatch(resetAlert()) }
+    dispatch(closeSidebar())
   }, [])
 
   return (
