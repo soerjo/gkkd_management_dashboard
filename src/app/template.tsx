@@ -25,9 +25,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
         return (
             <ReduxProvider store={store}>
                 <ThemeProvider>
-                    <AuthHook />
-                    <div className="relative">{children}</div>
-                    <ToastContainer />
+                    <AuthHook >
+                        <ToastContainer />
+                        <div className="relative">{children}</div>
+                    </AuthHook>
                 </ThemeProvider>
             </ReduxProvider>
         );
@@ -35,18 +36,20 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return (
         <ReduxProvider store={store}>
             <ThemeProvider value={{ ...drawerTheme }}>
-                <AuthHook />
                 <main className="min-h-screen bg-blue-gray-50/50">
                     <Sidenav routes={routes} />
                     <div className="p-4 xl:ml-80">
                         <DashboardNavbar />
-                        <div className="relative">{children}</div>
-                        <div className="text-blue-gray-600">
-                            <Footer />
-                        </div>
+                        <AuthHook >
+                            <div className="relative min-h-[92vh] grid">
+                                <ToastContainer />
+                                {children}
+                            </div>
+                        </AuthHook>
+                        <Footer />
                     </div>
                 </main>
             </ThemeProvider>
-        </ReduxProvider>
+        </ReduxProvider >
     );
 }
