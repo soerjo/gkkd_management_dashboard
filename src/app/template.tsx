@@ -3,12 +3,12 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@material-tailwind/react";
-import { Provider as AlertProvider } from "react-alert";
 
 import Sidenav from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import DashboardNavbar from "@/components/Navbar";
-import AlertTemplate, { alertOptions } from "@/components/Alert";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { routes } from "@/constant/routes.constant";
 import { drawerTheme } from "@/theme/drawer.theme";
@@ -25,9 +25,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
         return (
             <ReduxProvider store={store}>
                 <ThemeProvider>
-                    <AlertProvider template={AlertTemplate} {...alertOptions}>
-                        <div className="relative">{children}</div>
-                    </AlertProvider>
+                    <AuthHook />
+                    <div className="relative">{children}</div>
+                    <ToastContainer />
                 </ThemeProvider>
             </ReduxProvider>
         );
@@ -35,19 +35,17 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return (
         <ReduxProvider store={store}>
             <ThemeProvider value={{ ...drawerTheme }}>
-                <AlertProvider template={AlertTemplate} {...alertOptions}>
-                    {/* <AuthHook /> */}
-                    <main className="min-h-screen bg-blue-gray-50/50">
-                        <Sidenav routes={routes} />
-                        <div className="p-4 xl:ml-80">
-                            <DashboardNavbar />
-                            <div className="relative">{children}</div>
-                            <div className="text-blue-gray-600">
-                                <Footer />
-                            </div>
+                <AuthHook />
+                <main className="min-h-screen bg-blue-gray-50/50">
+                    <Sidenav routes={routes} />
+                    <div className="p-4 xl:ml-80">
+                        <DashboardNavbar />
+                        <div className="relative">{children}</div>
+                        <div className="text-blue-gray-600">
+                            <Footer />
                         </div>
-                    </main>
-                </AlertProvider>
+                    </div>
+                </main>
             </ThemeProvider>
         </ReduxProvider>
     );

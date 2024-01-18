@@ -1,27 +1,29 @@
 'use client'
 
 import React from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { JwtEnumKey } from '@/common/enum/localstorage.enum'
+import { useDispatch } from 'react-redux'
+import { setAuthData } from '@/redux/reducer/auth.reducer'
+import { getLocalStorage } from '@/utils/localstorage.util'
 
 const AuthHook = () => {
+    const dispatch = useDispatch();
+    const path = usePathname()
     const router = useRouter()
-    const pathname = usePathname()
 
 
     React.useEffect(() => {
-        const jwt = localStorage.getItem("jwt")
+        const jwt = getLocalStorage(JwtEnumKey.JWT)
+        const currentUser = getLocalStorage(JwtEnumKey.PAYLOAD)
 
-        if (!pathname || pathname === "/") {
-            router.push('/home')
+        if (!jwt) router.push("/auth/login")
+
+        if (jwt && path.includes("/auth/login")) {
+            dispatch(setAuthData(currentUser))
+            router.push("/home")
         }
-
-        if (!jwt) {
-            localStorage.clear();
-            router.push("/auth/login")
-        }
-
     }, [])
-
 
     return <></>
 }

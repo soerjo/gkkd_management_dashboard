@@ -90,6 +90,7 @@ export function DashboardNavbar() {
                         variant="text"
                         color="blue-gray"
                         className="hidden items-center gap-1 px-4 xl:flex normal-case"
+                        onClick={() => handleLogout()}
                     >
                         <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
                         Log out

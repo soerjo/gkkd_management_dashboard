@@ -1,15 +1,13 @@
-import PropTypes from "prop-types";
 import { Typography } from "@material-tailwind/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 
 const data = {
-    brandName: "Creative Tim",
-    brandLink: "https://www.creative-tim.com",
+    brandName: "Soerjo Production",
+    brandLink: "#",
     routes: [
-        { name: "Creative Tim", path: "https://www.creative-tim.com" },
-        { name: "About Us", path: "https://www.creative-tim.com/presentation" },
-        { name: "Blog", path: "https://www.creative-tim.com/blog" },
-        { name: "License", path: "https://www.creative-tim.com/license" },
+        { name: "About Us", path: "#" },
+        { name: "Blog", path: "#" },
+        { name: "License", path: "#" },
     ],
 }
 
@@ -24,11 +22,11 @@ export function Footer() {
                     &copy; {year}, made with{" "}
                     <HeartIcon className="-mt-0.5 inline-block h-3.5 w-3.5 text-red-600" /> by{" "}
                     <a
-                        href={brandLink}
+                        href={brandLink || ""}
                         target="_blank"
                         className="transition-colors hover:text-blue-500 font-bold"
                     >
-                        {brandName}
+                        {brandName || ""}
                     </a>{" "}
                     for a better web.
                 </Typography>
@@ -42,7 +40,7 @@ export function Footer() {
                                 variant="small"
                                 className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500"
                             >
-                                {name}
+                                {name || ""}
                             </Typography>
                         </li>
                     ))}

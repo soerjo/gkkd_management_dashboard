@@ -4,6 +4,7 @@ import React from "react";
 import { useRouter } from 'next/navigation'
 import { Input, Button, Typography } from "@material-tailwind/react";
 
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup"
 
@@ -11,8 +12,9 @@ import loginFormSchema from "@/common/validator/login-form.validator";
 import { ILoginForm } from "@/common/interfaces/login-form.interfaces";
 
 import { authLogin } from "@/services/auth";
-import { useAlert } from "react-alert";
 import { handleSetCookie } from "@/utils/cookies.util";
+import { JwtEnumKey } from "@/common/enum/localstorage.enum";
+import { setLocalStorage } from "@/utils/localstorage.util";
 
 
 
@@ -23,7 +25,6 @@ export default function LoginPage() {
     resolver: yupResolver(loginFormSchema),
   })
 
-  const alert = useAlert()
   const router = useRouter()
 
   const onSubmit = async (data: ILoginForm) => {
@@ -31,9 +32,9 @@ export default function LoginPage() {
       setstatus('loading')
       const response = await authLogin(data.usernameOrEmail, data.password)
 
-      handleSetCookie("jwt", response.data.jwt, 8)
-      localStorage.setItem('jwt', response.data.jwt);
-      localStorage.setItem('currentUser', JSON.stringify(response.data.payload));
+      handleSetCookie(JwtEnumKey.JWT, response.data.jwt, 8)
+      setLocalStorage(JwtEnumKey.JWT, { data: response.data.jwt }, 60 * 8)
+      setLocalStorage(JwtEnumKey.PAYLOAD, response.data.payload, 60 * 8)
 
       setstatus('success')
       router.push("/", { scroll: true })
@@ -41,10 +42,10 @@ export default function LoginPage() {
       setstatus('err')
 
       if (error?.response?.status < 500) {
-        return alert.show(error.response.data.message, { type: "error" })
+        return toast.warn(error.response.data.message, { theme: "colored" })
       }
 
-      alert.show(error.message, { type: "error" })
+      toast.error(error.response.data.message, { theme: "colored" })
     }
   }
 
