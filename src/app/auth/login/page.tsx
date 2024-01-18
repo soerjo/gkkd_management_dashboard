@@ -32,9 +32,13 @@ export default function LoginPage() {
       setstatus('loading')
       const response = await authLogin(data.usernameOrEmail, data.password)
 
-      handleSetCookie(JwtEnumKey.JWT, response.data.jwt, 8)
-      setLocalStorage(JwtEnumKey.JWT, { data: response.data.jwt }, 60 * 8)
-      setLocalStorage(JwtEnumKey.PAYLOAD, response.data.payload, 60 * 8)
+      // handleSetCookie(JwtEnumKey.JWT, response.data.jwt, 8)
+      // setLocalStorage(JwtEnumKey.JWT, { data: response.data.jwt }, 60 * 8)
+      // setLocalStorage(JwtEnumKey.PAYLOAD, response.data.payload, 60 * 8)
+
+      handleSetCookie(JwtEnumKey.JWT, response.data.jwt, 1)
+      setLocalStorage(JwtEnumKey.JWT, { data: response.data.jwt }, 1)
+      setLocalStorage(JwtEnumKey.PAYLOAD, response.data.payload, 1)
 
       setstatus('success')
       router.push("/", { scroll: true })

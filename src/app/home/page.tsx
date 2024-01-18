@@ -1,25 +1,22 @@
 'use client';
 
+import React from 'react'
+import dynamic from 'next/dynamic';
+import { useDispatch, useSelector } from 'react-redux';
+
 import StatisticsCard from '@/components/StatisticsCard';
-// import { LoadingStatisticsChart } from '@/components/StatisticsChart';
-// import StatisticsChart from '@/components/StatisticsChart';
-const StatisticsChart = dynamic(() => import('@/components/StatisticsChart'), {
-  ssr: false,
-  // loading: () => <LoadingStatisticsChart />
-});
-import ordersOverviewData from '@/constant/orders-overview-data.constant';
 import projectsTableData from '@/constant/project-table-data.constant';
 import projectsTableAverage from '@/constant/project-table-everage.constant';
 import statisticsCardsData from '@/constant/statistic-cards-data.constant';
 import statisticsChartsData from '@/constant/statistic-charts-data.constant';
-import { closeSidebar, decrement, increment, incrementByAmount } from '@/redux/reducer/main.reducer';
+
 import { RootState } from '@/redux/store';
-import { AcademicCapIcon, ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon, ChartBarIcon, CheckCircleIcon, ClockIcon, EllipsisVerticalIcon, UserGroupIcon } from '@heroicons/react/24/solid';
+import { closeSidebar } from '@/redux/reducer/main.reducer';
+
+import { AcademicCapIcon, ArrowLeftIcon, ArrowRightIcon, ChartBarIcon, CheckCircleIcon, ClockIcon, EllipsisVerticalIcon, UserGroupIcon } from '@heroicons/react/24/solid';
 import { Avatar, Card, CardBody, CardHeader, IconButton, Menu, MenuHandler, MenuItem, MenuList, Progress, Tooltip, Typography } from '@material-tailwind/react';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+
+const StatisticsChart = dynamic(() => import('@/components/StatisticsChart'), { ssr: false, });
 
 const HomePage = () => {
   const [active, setActive] = React.useState(1);
@@ -206,7 +203,7 @@ const HomePage = () => {
                 className="flex items-center gap-1 font-normal text-blue-gray-600"
               >
                 <CheckCircleIcon strokeWidth={3} className="h-4 w-4 text-blue-gray-200" />
-                <strong>Report Blesscomn</strong> sampai bulan ini.
+                <strong>Report Blesscomn</strong> sampai minggu ini.
               </Typography>
             </div>
             <Menu placement="left-start">
@@ -231,7 +228,7 @@ const HomePage = () => {
             <table className="w-full min-w-[640px] table-auto">
               <thead>
                 <tr>
-                  {["nama", "wilayah", "segment", "Total"].map(
+                  {["tanggal", "nama", "wilayah", "segment", "Total"].map(
                     (el) => (
                       <th
                         key={el}
@@ -258,6 +255,14 @@ const HomePage = () => {
 
                     return (
                       <tr key={name}>
+                        <td className={className}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                          >
+                            {new Date().toLocaleDateString('id-ID')}
+                          </Typography>
+                        </td>
                         <td className={className}>
                           <div className="flex items-center gap-4">
                             <Avatar src={img} alt={name} size="sm" />
