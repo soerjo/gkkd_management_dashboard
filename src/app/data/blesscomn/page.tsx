@@ -1,23 +1,28 @@
 'use client'
 
 import React from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { abortFetchItems, allItems, fetchItemsAsync, setCurrentPage } from '@/redux/reducer/pagination.reducer';
 import store from '@/redux/store';
 import { closeSidebar } from '@/redux/reducer/main.reducer';
-import ReportDataTable from '@/components/ReportDataTable';
-import ReportProgressTable from '@/components/ReportProgressTable';
-import StatisticsCard from '@/components/StatisticsCard';
-import StatisticsChart from '@/components/StatisticsChart';
-import statisticsCardsData from '@/constant/statistic-cards-data.constant';
-import statisticsChartsData from '@/constant/statistic-charts-data.constant';
-import { ClockIcon } from '@heroicons/react/24/solid';
+import { abortFetchItems, allItems, fetchItemsAsync, setCurrentPage } from '@/redux/reducer/pagination.reducer';
+
 import { Typography } from '@material-tailwind/react';
+import { ClockIcon } from '@heroicons/react/24/solid';
+
+
+import ReportDataTable from '@/components/ReportDataTable';
+import StatisticsChart from '@/components/StatisticsChart';
 import ReportProgressTableList from '@/components/ReportProgressTableList';
 
+import statisticsChartsData from '@/constant/statistic-charts-data.constant';
+import { usePathname } from 'next/navigation';
+
+// https://react-tailwindcss-datepicker.vercel.app/theming-options
 export default function BlesscomnPage() {
   const dispatch = useDispatch<typeof store.dispatch>();
-  const { items, currentPage, status, error } = useSelector(allItems)
+  const { currentPage } = useSelector(allItems)
+  const pathname = usePathname();
 
   const handleFetchNextPage = async () => {
     dispatch(setCurrentPage(currentPage + 1));
@@ -34,12 +39,13 @@ export default function BlesscomnPage() {
   }, [])
 
   return (
-    <div className='mt-2 xl:grid xl:grid-cols-3 flex flex-col gap-6 h-full row-start-1'>
+    <div className='mt-2 xl:grid xl:grid-cols-3 flex flex-col gap-6'>
       <div className='flex flex-col col-span-2 gap-4'>
         <div className="row-span-1 col-span-2">
           <StatisticsChart
             key={statisticsChartsData[1].title}
             {...statisticsChartsData[1]}
+            title={pathname.split("/").join(" ")}
             footer={
               <Typography
                 variant="small"
@@ -52,11 +58,12 @@ export default function BlesscomnPage() {
           />
         </div>
         <div className="col-span-2 row-span-2 grid">
-          <ReportDataTable />
+          <ReportDataTable title={pathname.split("/").join(" ")} />
         </div>
       </div>
       <div className="md:col-span-1 md:grid">
-        <ReportProgressTableList />
+        <ReportProgressTableList title={pathname.split("/")[2]}
+        />
       </div>
     </div>
   );

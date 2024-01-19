@@ -1,12 +1,16 @@
 import React from 'react'
 import projectsTableAverage from '@/constant/project-table-everage.constant';
-import { CheckCircleIcon, EllipsisVerticalIcon, ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
-import { Card, CardHeader, Typography, Menu, MenuHandler, IconButton, MenuList, MenuItem, CardBody } from '@material-tailwind/react';
+import { CheckCircleIcon, EllipsisVerticalIcon, ArrowLeftIcon, ArrowRightIcon, PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { Card, CardHeader, Typography, Menu, MenuHandler, IconButton, MenuList, MenuItem, CardBody, Button } from '@material-tailwind/react';
+import { drawerWithForm } from '../FormDrawer';
+import FormAddBlesscomn from '../FormAddBlesscomn';
 
-const ReportDataTable = () => {
+const DrawerAddFormBlesscomn = drawerWithForm(FormAddBlesscomn)
+
+const ReportDataTable = ({ title = "data" }: { title?: string }) => {
     const [active, setActive] = React.useState(1);
     return (
-        <Card className="overflow-hidden grid grid-rows-6 border border-blue-gray-100 shadow-sm">
+        <Card className="overflow-hidden border border-blue-gray-100 shadow-sm">
             <CardHeader
                 floated={false}
                 shadow={false}
@@ -14,8 +18,8 @@ const ReportDataTable = () => {
                 className="m-0 flex items-center justify-between p-6 row-span-1"
             >
                 <div>
-                    <Typography variant="h6" color="blue-gray" className="mb-1">
-                        Report Data
+                    <Typography variant="h6" color="blue-gray" className="mb-1 capitalize">
+                        Report {title}
                     </Typography>
                     <Typography
                         variant="small"
@@ -25,7 +29,15 @@ const ReportDataTable = () => {
                         <strong>Report Blesscomn</strong> sampai minggu ini.
                     </Typography>
                 </div>
-                <Menu placement="left-start">
+                <DrawerAddFormBlesscomn >
+                    <div className='flex justify-center items-center gap-4'>
+                        <Typography variant='small' className='md:flex hidden'>
+                            Tambah Data
+                        </Typography>
+                        <PlusIcon className="h-5 w-5 text-white" />
+                    </div>
+                </DrawerAddFormBlesscomn>
+                {/* <Menu placement="left-start">
                     <MenuHandler>
                         <IconButton size="sm" variant="text" color="blue-gray">
                             <EllipsisVerticalIcon
@@ -41,7 +53,7 @@ const ReportDataTable = () => {
                         <MenuItem>Wilayah</MenuItem>
                         <MenuItem>Kehadiran Ibadah</MenuItem>
                     </MenuList>
-                </Menu>
+                </Menu> */}
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2 row-span-7 overscroll-auto">
                 <table className="w-full min-w-[640px] table-auto">
@@ -66,14 +78,14 @@ const ReportDataTable = () => {
                     </thead>
                     <tbody>
                         {projectsTableAverage.map(
-                            ({ img, name, completion, segment, wilayah }, key) => {
-                                const className = `py-3 px-5 ${key === projectsTableAverage.length - 1
+                            ({ name, completion, segment, wilayah }, index) => {
+                                const className = `py-3 px-5 ${index === projectsTableAverage.length - 1
                                     ? ""
                                     : "border-b border-blue-gray-50"
                                     }`;
 
                                 return (
-                                    <tr key={name}>
+                                    <tr key={index}>
                                         <td className={className}>
                                             <Typography
                                                 variant="small"
@@ -125,7 +137,8 @@ const ReportDataTable = () => {
                     </tbody>
                 </table>
             </CardBody>
-            <div className="flex justify-end items-center gap-8 px-4 pb-4  row-end-auto row-span-1 ">
+            <div className='h-16' />
+            <div className="absolute bottom-0 right-0 flex justify-end items-center gap-8 px-4 pb-4  row-end-auto row-span-1">
                 <IconButton
                     size="sm"
                     variant="outlined"

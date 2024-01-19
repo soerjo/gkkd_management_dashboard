@@ -6,7 +6,7 @@ import { Card, CardHeader, Typography, CardBody, Avatar, Tooltip, Progress, Icon
 const ReportProgressTable = () => {
     const [active, setActive] = React.useState(1);
     return (
-        <Card className="overflow-hidden grid grid-rows-6 border border-blue-gray-100 shadow-sm">
+        <Card className="overflow-auto overflow-y-auto border border-blue-gray-100 shadow-sm">
             <CardHeader
                 floated={false}
                 shadow={false}
@@ -105,7 +105,8 @@ const ReportProgressTable = () => {
                     </tbody>
                 </table>
             </CardBody>
-            <div className="flex justify-end items-center gap-8 px-4 pb-4  row-end-auto row-span-1">
+            <div className='h-16' />
+            <div className="absolute bottom-0 right-0 flex justify-end items-center gap-8 px-4 pb-4  row-end-auto row-span-1">
                 <IconButton
                     size="sm"
                     variant="outlined"

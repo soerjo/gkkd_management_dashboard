@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export function StatisticsChart({ color, chart, title, description, footer }:
-    { color: string, chart: any, title: string, description: string, footer: React.ReactNode }) {
+    { color: string, chart: any, title?: string, description: string, footer: React.ReactNode }) {
     return (
         <Card className="border border-blue-gray-100 shadow-sm min-h-60">
             <CardHeader variant="gradient" color={color as color} floated={false} shadow={false}>
@@ -26,11 +26,11 @@ export function StatisticsChart({ color, chart, title, description, footer }:
                 {/* <Chart {...chart} /> */}
             </CardHeader>
             <CardBody className="px-6 pt-0">
-                <Typography variant="h6" color="blue-gray">
+                <Typography variant="h6" color="blue-gray" className="capitalize">
                     {title}
                 </Typography>
                 <Typography variant="small" className="font-normal text-blue-gray-600">
-                    {description}
+                    Total rata-rata {title} per-bulan
                 </Typography>
             </CardBody>
             {footer && (

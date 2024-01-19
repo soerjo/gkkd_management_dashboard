@@ -28,14 +28,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/",
-    "/auth/:path*",
-    "/home/:path*",
-    "/blesscomn/:path*",
-    "/jemaat/:path*",
-    "/pemuridan/:path*",
-    "/user/:path*",
-    "/wilayah/:path*",
-  ],
+  matcher: ["/", "/auth/:path*", "/home/:path*", "/user/:path*", "/data/:path*"],
 };

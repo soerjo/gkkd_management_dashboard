@@ -23,12 +23,12 @@ const AuthHook = ({ children }: { children: React.ReactNode }) => {
 
         if (!jwt) {
             handleCleanCookie(JwtEnumKey.JWT)
-            router.push("/auth/login")
+            return router.push("/auth/login")
         }
 
         if (jwt && path.includes("/auth/login")) {
             dispatch(setAuthData(currentUser))
-            router.push("/home")
+            return router.push("/home")
         }
 
         () => setloading(false)

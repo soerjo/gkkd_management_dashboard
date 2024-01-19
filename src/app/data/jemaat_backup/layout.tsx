@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GKKD Apps | blesscomn",
-  description: "page blesscomn",
+  title: "GKKD Apps | jemaat",
+  description: "page jemaat",
   manifest: "/site.webmanifest",
   icons: [
     { rel: "apple-touch-icon", sizes: "180x180", url: "/apple-touch-icon.png" },
@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<>{children}</>)
+  return children
 }

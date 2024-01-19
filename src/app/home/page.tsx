@@ -5,16 +5,14 @@ import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
 
 import StatisticsCard from '@/components/StatisticsCard';
-import projectsTableData from '@/constant/project-table-data.constant';
-import projectsTableAverage from '@/constant/project-table-everage.constant';
 import statisticsCardsData from '@/constant/statistic-cards-data.constant';
 import statisticsChartsData from '@/constant/statistic-charts-data.constant';
 
 import { RootState } from '@/redux/store';
 import { closeSidebar } from '@/redux/reducer/main.reducer';
 
-import { AcademicCapIcon, ArrowLeftIcon, ArrowRightIcon, ChartBarIcon, CheckCircleIcon, ClockIcon, EllipsisVerticalIcon, UserGroupIcon } from '@heroicons/react/24/solid';
-import { Avatar, Card, CardBody, CardHeader, IconButton, Menu, MenuHandler, MenuItem, MenuList, Progress, Tooltip, Typography } from '@material-tailwind/react';
+import { ClockIcon } from '@heroicons/react/24/solid';
+import { Typography } from '@material-tailwind/react';
 import ReportProgressTable from '@/components/ReportProgressTable';
 import ReportDataTable from '@/components/ReportDataTable';
 
@@ -30,8 +28,8 @@ const HomePage = () => {
   }, [])
 
   return (
-    <div className="mt-2">
-      <div className="mb-6 grid gap-y-10 gap-x-6 grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
+    <div className="mt-4 flex flex-col gap-4">
+      <div className="grid gap-y-10 gap-x-6 grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
         {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
           <StatisticsCard
             key={title}
@@ -49,7 +47,7 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
         {statisticsChartsData.map((props) => (
           <StatisticsChart
             key={props.title}
@@ -66,7 +64,7 @@ const HomePage = () => {
           />
         ))}
       </div>
-      <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-4">
         <div className='xl:col-span-2 grid'>
           <ReportProgressTable />
         </div>

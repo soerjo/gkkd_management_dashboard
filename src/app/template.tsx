@@ -38,13 +38,11 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <ThemeProvider value={{ ...drawerTheme }}>
                 <main className="min-h-screen bg-blue-gray-50/50">
                     <Sidenav routes={routes} />
-                    <div className="p-4 xl:ml-80">
+                    <div className="relative pt-4 px-4 xl:ml-80 min-h-screen">
                         <DashboardNavbar />
                         <AuthHook >
-                            <div className="relative min-h-[92vh] grid">
-                                <ToastContainer />
-                                {children}
-                            </div>
+                            <ToastContainer />
+                            {children}
                         </AuthHook>
                         <Footer />
                     </div>
