@@ -45,7 +45,8 @@ export default function LoginPage() {
         return toast.warn(error.response.data.message, { theme: "colored" })
       }
 
-      toast.error(error.response.data.message, { theme: "colored" })
+      console.log({ err: "error cuy!", error })
+      toast.error(error.message, { theme: "colored" })
     }
   }
 
