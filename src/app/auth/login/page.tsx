@@ -16,9 +16,6 @@ import { handleSetCookie } from "@/utils/cookies.util";
 import { JwtEnumKey } from "@/common/enum/localstorage.enum";
 import { setLocalStorage } from "@/utils/localstorage.util";
 
-
-
-
 export default function LoginPage() {
   const [status, setstatus] = React.useState<string>("idle")
   const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>({
@@ -45,7 +42,6 @@ export default function LoginPage() {
         return toast.warn(error.response.data.message, { theme: "colored" })
       }
 
-      console.log({ err: "error cuy!", error })
       toast.error(error.message, { theme: "colored" })
     }
   }

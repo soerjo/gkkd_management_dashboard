@@ -59,7 +59,8 @@ export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: st
             </div>
             <div className="m-4">
                 {routes.map(({ layout, title, pages }, key) => (
-                    <ul key={key} className="flex flex-col">
+                    <ul key={key} className={title !== "auth" ? "flex flex-col" : "absolute bottom-0 mb-4"}>
+                        {/* <h1>{title || "kosong"}</h1> */}
                         {pages.map(({ icon, name, path: parent_path, child }) => (
                             <List key={name}>
                                 <Accordion

@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { JwtEnumKey } from "./common/enum/localstorage.enum";
 
 export function middleware(request: NextRequest) {
   const app_url = process.env.APP_URL || "";
   const path = request.url.replace(app_url, "");
 
-  const jwt = request.cookies.get("jwt")?.value;
+  const jwt = request.cookies.get(JwtEnumKey.JWT)?.value;
 
   if (jwt && path.includes("/auth")) {
     return NextResponse.redirect(new URL("/home", request.url));
@@ -21,6 +22,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (path === "/") {
+    console.log("triger");
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
