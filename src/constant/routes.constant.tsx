@@ -9,6 +9,7 @@ export interface IPage {
   name: string;
   path: string;
   child?: IPage[];
+  role?: string
 }
 
 export interface IRoutes {
@@ -56,47 +57,13 @@ export const routes: IRoutes[] = [
           }
         ]
       },
-      // {
-      //   name: "blesscomn",
-      //   path: "/blesscomn",
-      // },
-      // {
-      //   icon: <UsersIcon {...icon} />,
-      //   name: "jemaat",
-      //   path: "/jemaat",
-      // },
-      // {
-      //   icon: <AcademicCapIcon {...icon} />,
-      //   name: "pemuridan",
-      //   path: "/pemuridan",
-      // },
-      // {
-      //   icon: <GlobeAsiaAustraliaIcon {...icon} />,
-      //   name: "wilayah",
-      //   path: "/wilayah",
-      // },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "user",
         path: "/user",
+        role: "SUPERADMIN",
       },
 
-    ],
-  },
-  {
-    title: "auth",
-    layout: "auth",
-    pages: [
-      {
-        icon: <UserCircleIcon {...icon} />,
-        name: "profile",
-        path: "/profile",
-      },
-      //     // {
-      //     //   icon: <RectangleStackIcon {...icon} />,
-      //     //   name: "sign up",
-      //     //   path: "/sign-up",
-      //     // },
     ],
   },
 ];

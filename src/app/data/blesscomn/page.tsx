@@ -13,30 +13,26 @@ import { ClockIcon } from '@heroicons/react/24/solid';
 
 import ReportDataTable from '@/components/ReportDataTable';
 import StatisticsChart from '@/components/StatisticsChart';
-import ReportProgressTableList from '@/components/ReportProgressTableList';
 
 import statisticsChartsData from '@/constant/statistic-charts-data.constant';
 import { usePathname } from 'next/navigation';
+import ListDataBlesscomn from '@/components/ListDataBlesscomn';
+import { getBlesscomn, getReportBlesscomn } from '@/redux/reducer/blesscomn.reducer';
 
 // https://react-tailwindcss-datepicker.vercel.app/theming-options
 export default function BlesscomnPage() {
   const dispatch = useDispatch<typeof store.dispatch>();
-  const { currentPage } = useSelector(allItems)
   const pathname = usePathname();
 
-  const handleFetchNextPage = async () => {
-    dispatch(setCurrentPage(currentPage + 1));
-    await dispatch(fetchItemsAsync({ page: currentPage + 1, pageSize: 10 }));
-  };
-
   React.useEffect(() => {
-    dispatch(fetchItemsAsync({ page: 1, pageSize: 10 }))
+    dispatch(getBlesscomn())
+    dispatch(getReportBlesscomn({ page: 1, take: 5 }))
     return () => dispatch(abortFetchItems())
   }, [dispatch])
 
   React.useEffect(() => {
     dispatch(closeSidebar())
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='mt-2 xl:grid xl:grid-cols-3 flex flex-col gap-6'>
@@ -62,8 +58,7 @@ export default function BlesscomnPage() {
         </div>
       </div>
       <div className="md:col-span-1 md:grid">
-        <ReportProgressTableList title={pathname.split("/")[2]}
-        />
+        <ListDataBlesscomn title={pathname.split("/")[2]} />
       </div>
     </div>
   );

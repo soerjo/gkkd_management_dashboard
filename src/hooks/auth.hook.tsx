@@ -5,11 +5,11 @@ import { useRouter, usePathname } from 'next/navigation'
 import { JwtEnumKey } from '@/common/enum/localstorage.enum'
 import { useDispatch } from 'react-redux'
 import { setAuthData } from '@/redux/reducer/auth.reducer'
-import { getLocalStorage } from '@/utils/localstorage.util'
+import { cleanLocalStorage, getLocalStorage } from '@/utils/localstorage.util'
 import { handleCleanCookie } from '@/utils/cookies.util'
 import { Spinner } from '@material-tailwind/react'
 
-const AuthHook = ({ children }: { children: React.ReactNode }) => {
+function AuthHook({ children }: { children: React.ReactNode }) {
     const [loading, setloading] = React.useState(false)
     const dispatch = useDispatch();
     const path = usePathname()
@@ -23,6 +23,7 @@ const AuthHook = ({ children }: { children: React.ReactNode }) => {
 
         if (!jwt) {
             handleCleanCookie(JwtEnumKey.JWT)
+            cleanLocalStorage()
             return router.push("/auth/login")
         }
 
@@ -32,8 +33,7 @@ const AuthHook = ({ children }: { children: React.ReactNode }) => {
         }
 
         () => setloading(false)
-    },
-        [])
+    }, [dispatch, path, router])
 
     if (loading) return <>{children}</>
 

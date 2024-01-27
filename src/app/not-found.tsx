@@ -12,7 +12,7 @@ const PageNotFound = () => {
         const jwt = getLocalStorage(JwtEnumKey.JWT)
         if (jwt) setTimeout(() => router.push("/"), 5000);
         if (!jwt) setTimeout(() => router.push("auth/login"), 5000);
-    }, [])
+    }, [router])
 
     return (
         <div className='mx-auto h-screen flex justify-center items-center bg-[#F3F3F3]'>

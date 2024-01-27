@@ -3,8 +3,8 @@ import projectsTableData from '@/constant/project-table-data.constant';
 import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { Card, CardHeader, Typography, CardBody, Avatar, IconButton, Input, Button } from '@material-tailwind/react';
 // import { DrawerWithForm } from '../FormDrawer';
-import FormAddBlesscomn from '../FormAddBlesscomn';
-import { drawerWithForm } from '../FormDrawer';
+import FormAddBlesscomn from '../Page/PageBlesscomn/List/FormAddBlesscomn';
+import drawerWithForm from '../FormDrawer';
 
 const DrawerAddFormBlesscomn = drawerWithForm(FormAddBlesscomn)
 

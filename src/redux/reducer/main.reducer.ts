@@ -15,7 +15,6 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     toggleSidebar: (state) => {
-      console.log({ state });
       state.openSidenav = !state.openSidenav;
     },
     openSidebar: (state) => {

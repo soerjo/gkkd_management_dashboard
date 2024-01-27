@@ -2,13 +2,21 @@ import React from 'react'
 import projectsTableAverage from '@/constant/project-table-everage.constant';
 import { CheckCircleIcon, EllipsisVerticalIcon, ArrowLeftIcon, ArrowRightIcon, PlusCircleIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { Card, CardHeader, Typography, Menu, MenuHandler, IconButton, MenuList, MenuItem, CardBody, Button } from '@material-tailwind/react';
-import { drawerWithForm } from '../FormDrawer';
-import FormAddBlesscomn from '../FormAddBlesscomn';
+import drawerWithForm from '../FormDrawer';
+import FormAddReportBlesscomn from '../Page/PageBlesscomn/Report/FormAddReportBlesscomn';
+import { useDispatch, useSelector } from 'react-redux';
+import { blesscomnReducer, getReportBlesscomn } from '@/redux/reducer/blesscomn.reducer';
+import store from '@/redux/store';
 
-const DrawerAddFormBlesscomn = drawerWithForm(FormAddBlesscomn)
+const DrawerAddFormBlesscomn = drawerWithForm(FormAddReportBlesscomn)
 
+const takePagination = 5
 const ReportDataTable = ({ title = "data" }: { title?: string }) => {
     const [active, setActive] = React.useState(1);
+    const { list_report } = useSelector(blesscomnReducer)
+
+    const dispatch = useDispatch<typeof store.dispatch>();
+
     return (
         <Card className="overflow-hidden border border-blue-gray-100 shadow-sm">
             <CardHeader
@@ -37,29 +45,12 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                         <PlusIcon className="h-5 w-5 text-white" />
                     </div>
                 </DrawerAddFormBlesscomn>
-                {/* <Menu placement="left-start">
-                    <MenuHandler>
-                        <IconButton size="sm" variant="text" color="blue-gray">
-                            <EllipsisVerticalIcon
-                                strokeWidth={3}
-                                fill="currenColor"
-                                className="h-6 w-6"
-                            />
-                        </IconButton>
-                    </MenuHandler>
-                    <MenuList>
-                        <MenuItem>Blesscomn</MenuItem>
-                        <MenuItem>Pemuridan</MenuItem>
-                        <MenuItem>Wilayah</MenuItem>
-                        <MenuItem>Kehadiran Ibadah</MenuItem>
-                    </MenuList>
-                </Menu> */}
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2 row-span-7 overscroll-auto">
                 <table className="w-full min-w-[640px] table-auto">
                     <thead>
                         <tr>
-                            {["tanggal", "nama", "wilayah", "segment", "Total"].map(
+                            {["tanggal", "nama", "wilayah", "laki-laki", "perempuan", "new", "total"].map(
                                 (el) => (
                                     <th
                                         key={el}
@@ -77,8 +68,8 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {projectsTableAverage.map(
-                            ({ name, completion, segment, wilayah }, index) => {
+                        {list_report && list_report.entities.map(
+                            (blesscomnData, index) => {
                                 const className = `py-3 px-5 ${index === projectsTableAverage.length - 1
                                     ? ""
                                     : "border-b border-blue-gray-50"
@@ -91,7 +82,7 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                                                 variant="small"
                                                 color="blue-gray"
                                             >
-                                                {new Date().toLocaleDateString('id-ID')}
+                                                {new Date(blesscomnData.date).toLocaleDateString('id-ID')}
                                             </Typography>
                                         </td>
                                         <td className={className}>
@@ -102,7 +93,7 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    {name}
+                                                    {blesscomnData.blesscomn.name}
                                                 </Typography>
                                             </div>
                                         </td>
@@ -111,7 +102,7 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                                                 variant="small"
                                                 color="blue-gray"
                                             >
-                                                {wilayah}
+                                                {blesscomnData.blesscomn.region.name}
                                             </Typography>
                                         </td>
                                         <td className={className}>
@@ -119,7 +110,7 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                                                 variant="small"
                                                 color="blue-gray"
                                             >
-                                                {segment}
+                                                {blesscomnData.total_male}
                                             </Typography>
                                         </td>
                                         <td className={className}>
@@ -127,7 +118,23 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
                                                 variant="small"
                                                 color="blue-gray"
                                             >
-                                                {completion}
+                                                {blesscomnData.total_female}
+                                            </Typography>
+                                        </td>
+                                        <td className={className}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                            >
+                                                {blesscomnData.new}
+                                            </Typography>
+                                        </td>
+                                        <td className={className}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                            >
+                                                {blesscomnData.total}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -141,21 +148,21 @@ const ReportDataTable = ({ title = "data" }: { title?: string }) => {
             <div className="absolute bottom-0 right-0 flex justify-end items-center gap-8 px-4 pb-4  row-end-auto row-span-1">
                 <IconButton
                     size="sm"
-                    variant="outlined"
-                    onClick={() => { }}
-                    disabled={true}
+                    variant={list_report?.meta.page <= 1 ? "outlined" : "filled"}
+                    onClick={() => { dispatch(getReportBlesscomn({ page: list_report?.meta.page - 1, take: list_report?.meta.offset })) }}
+                    disabled={list_report?.meta.page <= 1}
                 >
                     <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
                 </IconButton>
                 <Typography color="gray" className="font-normal">
-                    Page <strong className="text-gray-900">{active}</strong> of{" "}
-                    <strong className="text-gray-900">10</strong>
+                    Page <strong className="text-gray-900">{list_report?.meta.page}</strong> of{" "}
+                    <strong className="text-gray-900">{list_report?.meta.pageCount}</strong>
                 </Typography>
                 <IconButton
                     size="sm"
-                    variant="filled"
-                    onClick={() => { }}
-                    disabled={active === 10}
+                    variant={list_report?.meta.page >= list_report?.meta.pageCount ? "outlined" : "filled"}
+                    onClick={() => { dispatch(getReportBlesscomn({ page: list_report?.meta.page + 1, take: list_report?.meta.offset })) }}
+                    disabled={list_report?.meta.page >= list_report?.meta.pageCount}
                 >
                     <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
                 </IconButton>

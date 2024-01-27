@@ -24,9 +24,10 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleSidebar } from "@/redux/reducer/main.reducer";
 import { handleCleanCookie } from "@/utils/cookies.util";
+import { cleanLocalStorage } from "@/utils/localstorage.util";
 
 export function DashboardNavbar() {
     const [fixedNavbar, setFixedNavbar] = React.useState<boolean>(false);
@@ -38,6 +39,7 @@ export function DashboardNavbar() {
     const handleLogout = () => {
         localStorage.clear();
         handleCleanCookie("jwt");
+        cleanLocalStorage();
 
         router.push("/auth/login");
     };

@@ -35,7 +35,7 @@ export default function BlesscomnPage() {
 
   React.useEffect(() => {
     dispatch(closeSidebar())
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='mt-2 xl:grid xl:grid-cols-3 flex flex-col gap-6 h-full row-start-1'>

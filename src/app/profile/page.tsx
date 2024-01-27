@@ -18,7 +18,7 @@ import {
 // } from "@heroicons/react/24/solid";
 import platformSettingsData from "@/constant/platform-setting.constant";
 
-export function Profile() {
+export default function Profile() {
     return (
         <>
             <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover	bg-center">
@@ -100,5 +100,3 @@ export function Profile() {
         </>
     );
 }
-
-export default Profile;

@@ -25,7 +25,7 @@ const HomePage = () => {
 
   React.useEffect(() => {
     dispatch(closeSidebar())
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="mt-4 flex flex-col gap-4">

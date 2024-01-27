@@ -11,7 +11,7 @@ import { RootState } from "@/redux/store";
 import { IRoutes } from "@/constant/routes.constant";
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import {
     Accordion,
     AccordionBody,
@@ -22,9 +22,12 @@ import {
     ListItemPrefix,
     Typography,
 } from "@material-tailwind/react";
+import { getLocalStorage } from "@/utils/localstorage.util";
+import { JwtEnumKey } from "@/common/enum/localstorage.enum";
 
 export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: string; routes: IRoutes[] }) {
     const [open, setOpen] = React.useState<string | null>();
+    const [credential_payload, setcredential_payload] = React.useState<any | null>();
 
     const handleOpen = (value?: string) => {
         setOpen(open === value ? null : value);
@@ -32,8 +35,14 @@ export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: st
 
     const pathname = usePathname();
 
+
     const { openSidenav } = useSelector((state: RootState) => state.main);
     const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        const credential_payload = getLocalStorage(JwtEnumKey.PAYLOAD)
+        setcredential_payload(credential_payload)
+    }, [])
 
     return (
         <aside
@@ -58,10 +67,9 @@ export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: st
                 </IconButton>
             </div>
             <div className="m-4">
-                {routes.map(({ layout, title, pages }, key) => (
-                    <ul key={key} className={title !== "auth" ? "flex flex-col" : "absolute bottom-0 mb-4"}>
-                        {/* <h1>{title || "kosong"}</h1> */}
-                        {pages.map(({ icon, name, path: parent_path, child }) => (
+                {routes.map(({ pages }, key) => (
+                    <ul key={key} className={"flex flex-col"}>
+                        {pages.map(({ icon, name, path: parent_path, child, role }) => (
                             <List key={name}>
                                 <Accordion
                                     open={child ? open === name : false}
@@ -84,22 +92,22 @@ export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: st
                                                     </Typography>
                                                 </div>
                                             </AccordionHeader>
-                                        ) : (
-                                            <Link href={`${parent_path}`} className="w-full">
-                                                <AccordionHeader onClick={() => handleOpen(name)} className="border-b-0 p-3">
-                                                    <div className="flex justify-center">
-                                                        <ListItemPrefix>{icon}</ListItemPrefix>
-                                                        <Typography color="inherit" className="font-medium capitalize text-left">
-                                                            {name || ""}
-                                                        </Typography>
-                                                    </div>
-                                                </AccordionHeader>
-                                            </Link>
-                                        )}
+                                        ) : (!role || role === credential_payload?.role[0]) &&
+                                        <Link href={`${parent_path}`} className="w-full">
+                                            <AccordionHeader onClick={() => handleOpen(name)} className="border-b-0 p-3">
+                                                <div className="flex justify-center">
+                                                    <ListItemPrefix>{icon}</ListItemPrefix>
+                                                    <Typography color="inherit" className="font-medium capitalize text-left">
+                                                        {name || ""}
+                                                    </Typography>
+                                                </div>
+                                            </AccordionHeader>
+                                        </Link>
+                                        }
                                     </ListItem>
                                     {child &&
                                         <AccordionBody className="py-1">
-                                            {child.map(({ icon, name, path: child_path }) => (
+                                            {child.map(({ name, path: child_path }) => (
                                                 <List className="p-0" key={name}>
                                                     <Link href={`${parent_path}/${child_path}`} >
                                                         <ListItem>
@@ -120,8 +128,27 @@ export function Sidenav({ brandName = "GKKD Jakarta", routes }: { brandName?: st
                         ))}
                     </ul>
                 ))}
+                <ul className={"absolute bottom-0 py-3"}>
+                    <List >
+                        <Accordion open={false} >
+                            <ListItem className="p-0">
+                                <Link href={`/profile`} className="w-full">
+                                    <AccordionHeader className="border-b-0 p-3">
+                                        <div className="flex justify-center">
+                                            <ListItemPrefix> <UserCircleIcon className="w-5 h-5 text-inherit" /></ListItemPrefix>
+                                            <Typography color="inherit" className="font-medium capitalize text-left">
+                                                {credential_payload?.username || ""}
+                                                {/* {JSON.stringify(credential_payload)} */}
+                                            </Typography>
+                                        </div>
+                                    </AccordionHeader>
+                                </Link>
+                            </ListItem>
+                        </Accordion>
+                    </List>
+                </ul>
             </div>
-        </aside>
+        </aside >
     );
 }
 

@@ -15,17 +15,19 @@ export const setLocalStorage = (keyName: string, data: any, expirationMinutes: n
 export const getLocalStorage = (keyName: string) => {
   const data = localStorage.getItem(keyName);
 
-  if (!data) {
-    return null;
-  }
+  if (!data) return null;
 
-  const tokenData = JSON.parse(data);
+  const localData = JSON.parse(data);
   const currentTime = new Date().getTime();
 
-  if (currentTime > tokenData.expiration) {
+  if (currentTime > localData.expiration) {
     localStorage.removeItem(keyName);
     return null;
   }
 
-  return tokenData.data;
+  return localData.data;
+};
+
+export const cleanLocalStorage = () => {
+  const data = localStorage.clear();
 };

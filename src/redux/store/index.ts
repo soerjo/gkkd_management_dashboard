@@ -4,6 +4,8 @@ import mainReducer from "../reducer/main.reducer";
 import paginationReducer from "../reducer/pagination.reducer";
 import authReducer from "../reducer/auth.reducer";
 import alertReducer from "../reducer/alert.reducer";
+import blesscomnReducer from "../reducer/blesscomn.reducer";
+import adminReducer from "../reducer/admin.reducer";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ const store = configureStore({
     items: paginationReducer,
     auth: authReducer,
     alert: alertReducer,
+    blesscomn: blesscomnReducer,
+    admin: adminReducer,
   },
 });
 
