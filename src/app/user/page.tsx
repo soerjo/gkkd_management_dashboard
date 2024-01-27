@@ -8,8 +8,8 @@ import store from '@/redux/store';
 import { closeSidebar } from '@/redux/reducer/main.reducer';
 import { abortFetchItems } from '@/redux/reducer/pagination.reducer';
 
-import { Button, Card, CardBody, CardHeader, Dialog, DialogFooter, DialogHeader, Drawer, IconButton, Tooltip, Typography } from '@material-tailwind/react';
-import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, PlusIcon } from '@heroicons/react/24/solid';
+import { Button, Card, CardBody, CardHeader, Dialog, DialogFooter, DialogHeader, Drawer, IconButton, Input, Tooltip, Typography } from '@material-tailwind/react';
+import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/solid';
 
 import projectsTableAverage from '@/constant/project-table-everage.constant';
 import FormAddUser from '@/components/Page/PageUser/FormAddUser';
@@ -18,6 +18,7 @@ import FormEditUser from '@/components/Page/PageUser/FormEditUser';
 import { ToastContainer } from 'react-toastify';
 
 export default function BlesscomnPage() {
+  const [search, setsearch] = React.useState("");
   const [statusDrawer, setStatusDrawer] = React.useState<"edit" | "add" | undefined>();
   const [open, setOpen] = React.useState(false);
   const [selectUser, setSelectUser] = React.useState<any>(undefined);
@@ -46,6 +47,10 @@ export default function BlesscomnPage() {
     handleOpen(user)
   }
 
+  const handleSearch = async (user: any) => {
+    await dispatch(getListUserAdmin({ page: 1, take: 8, search: search })) as any
+  }
+
   const handleForward = () => {
     dispatch(getListUserAdmin({ page: list_user_admin?.meta.page + 1, take: list_user_admin?.meta.offset }))
   }
@@ -63,27 +68,31 @@ export default function BlesscomnPage() {
               floated={false}
               shadow={false}
               color="transparent"
-              className="m-0 flex items-center justify-between p-6 row-span-1"
+              className="m-0 flex md:flex-row flex-col gap-4 items-center justify-between p-6 row-span-1"
             >
-              <div>
-                <Typography variant="h6" color="blue-gray" className="mb-1 capitalize">
+              <div className='w-full'>
+                <Typography variant="h5" color="blue-gray" className="mb-1 capitalize">
                   List {pathname.split('/').join("")}
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="small"
                   className="flex items-center gap-1 font-normal text-blue-gray-600"
                 >
                   <CheckCircleIcon strokeWidth={3} className="h-4 w-4 text-blue-gray-200" />
                   <strong>Report Blesscomn</strong> sampai minggu ini.
-                </Typography>
+                </Typography> */}
               </div>
-              <div className='flex justify-center items-center gap-4'>
-                <Button className='flex gap-4' onClick={() => setStatusDrawer("add")}>
-                  <Typography variant='small' className='md:flex hidden'>
-                    Tambah Data
-                  </Typography>
-                  <PlusIcon className="h-5 w-5 text-white" />
-                </Button>
+              <div className='flex gap-4 w-full '>
+                <Input size='md' value={search} onChange={(val) => setsearch(val.target.value)} icon={<MagnifyingGlassIcon className='cursor-pointer' onClick={handleSearch} />} />
+                <div>
+                  {/* <p>tulisan</p> */}
+                  <Button size='sm' className='flex items-center gap-4' onClick={() => setStatusDrawer("add")}>
+                    <Typography variant='small' className='md:flex hidden text-nowrap'>
+                      Tambah Data
+                    </Typography>
+                    <PlusIcon className="h-5 w-5 text-white" />
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardBody className="px-0 pt-0 pb-2 row-span-7 overflow-auto">

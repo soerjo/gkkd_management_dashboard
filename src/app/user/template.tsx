@@ -4,9 +4,9 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { ThemeProvider } from "@material-tailwind/react";
 
-import Sidenav from "@/components/common/Sidebar";
-import Footer from "@/components/common/Footer";
-import DashboardNavbar from "@/components/common/Navbar";
+import Sidenav from "@/components/Common/Sidebar";
+import Footer from "@/components/Common/Footer";
+import DashboardNavbar from "@/components/Common/Navbar";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
